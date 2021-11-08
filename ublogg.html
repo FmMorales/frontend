@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UBLOG</title>
+    <link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+			integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+			crossorigin="anonymous"
+		/>
+</head>
+<body>
+   
+        <!-- Content here -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+             
+              <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                  <a class="nav-link active" aria-current="page" href="Postear.html">Nuevo Post</a>
+                  
+                </div>
+              </div>
+            </div>
+        </nav>
+        <div class="row">
+            <div class="col-12 border bg-primary">
+                <h3>Archivos Posteados</h3>
+               
+            </div>
+        </div>
+        <div id="posterCard">
+        
+        </div>
+
+    </div>
+    <script>
+      function getPoster(){
+            //querySelector permite conectar una parte del html con javascript --> document.querySelector('id')
+            var card = document.querySelector('#posterCard')
+
+            var cadena =''
+
+            fetch('https://ublogipc.herokuapp.com/NewPost', {
+                    method: 'GET',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*',}})
+                    .then(res => res.json())
+                    .catch(err => {
+                        console.error('Error:', err)
+                        alert("Ocurrio un error, ver la consola")
+                    })
+                    .then(response =>{
+                        //Imprime en la consola la respuesta a la solicitud
+                        console.log(response);
+                    
+                        // Usamos un foreach para darle el valor a un objeto dentro de un arreglo.
+                        // arreglo.forEach(variable => {que se hara dentro del for})
+
+                        response.forEach(element => {
+                                 //Usar acento grave, para poder utilizar las variables dentro del texto --> ``  ALT+96
+                                console.log(element)
+                             
+                                cadena +=  `<div class="card" style="width: 18rem;">
+                                            "<img src="{{post.Link}}" class="card-img-top" alt="...">
+                                            <div class="card-body">
+                                              
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                              <li class="list-group-item">Usuario: ${element.Usuario}</li>
+                                              <li class="list-group-item">Tipo: Q${element.Tipo}</li>
+                                              <li class="list-group-item">Descripcion: ${element.Descripcion}</li>
+                                            </ul>
+                                            <div class="card-body">
+                                            </div><br><br>`
+                             
+                            });
+                         
+                        //Usamos innerHTML para agregar el HTML a la etiqueta que indicamos anteriormente.
+                         card.innerHTML = cadena
+            })
+        }
+        function refrescar(){
+          location.href= "ublogg.html"
+        }
+
+
+
+
+    </script>
+</body>
+</html>

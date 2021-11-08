@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ublog</title>
+    <link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+			integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+			crossorigin="anonymous"
+		/>
+</head>
+<body>
+    <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+        <a class="navbar-brand" href="#">
+          
+            UBLOG
+        </a>
+    </nav>
+    
+       
+
+        <!-- Content here -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+             
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link active" aria-current="page" href="ublogg.html">Volver a los archivos Posteados</a>
+                  
+                  
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div style="width: 70%; float: center; padding-left: 100px;">
+            <div class="form-group">
+                <label for="signupGender">Tipo</label>
+                <select id="Tipo" class="form-control">
+                    <option value="Imagen">Imagen</option>
+                    <option value="Video">Video</option>
+                </select>
+            </div>
+        </div>
+        <div>
+            <div style="width: 70%; float: center; padding-left: 100px;">
+                <form>
+                <div class="mb-3">
+                  <label for="especialidad" class="form-label">User</label>
+                  <input type="text" class="form-control" id="Usuario">
+                </div>
+                <div class="mb-3">
+                  <label for="id" class="form-label">URL</label>
+                  <input type="text" class="form-control" id="Link">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="precio" class="form-label">Descripcion</label>
+                    <input type="text" class="form-control" id="Descripcion">
+                  </div>
+                  <button onclick="PostearImagen()" type="button" class="btn btn-outline-dark">Postear</button>
+              </form>
+            </div>
+        </div>
+        
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+<script>
+        //Método para insertar - Guardado
+       function PostearImagen(){
+        console.log("Botón presionado");
+        var Tipo = document.querySelector('#Tipo').value
+        var Link = document.querySelector('#Link').value    
+        var Usuario = document.querySelector('#Usuario').value 
+        var Descripcion = document.querySelector('#Descripcion').value
+
+        var JsonPostear = {
+            'Tipo': Tipo,
+            'Link': Link,
+            'Usuario': Usuario, 
+            'Descripcion': Descripcion
+        }
+        console.log(JsonPostear)
+      
+
+       fetch('https://ublogipc.herokuapp.com/NewPost', {
+        method: 'POST', 
+        body: JSON.stringify(JsonPostear), 
+        headers:{
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+        }})
+        //Si encuentra un error:
+        .then(res=> res.json())
+        .catch(err => {
+            console.log('ERROR:', err)
+            alert("Ocurrió un error, revisa la consola")
+        })
+
+        //Si está correcto:
+        .then(respose =>{
+            console.log(respose);
+           // alert(respose.Mensaje)
+        }) 
+    } 
+</script>
+    
+</body>
+</html>
